@@ -4,6 +4,7 @@ import {
   Bridge,
   BridgeFactory,
   Erc20Factory,
+  Erc721Factory,
 } from "@chainsafe/chainbridge-contracts";
 import { BigNumber, ethers, utils } from "ethers";
 import { BridgeConfig, chainbridgeConfig } from "../PoochBridgeConfig";
@@ -47,9 +48,10 @@ type ChainbridgeContext = {
   destinationChains: Array<{ chainId: number; name: string }>;
   setDestinationChain(chainId: number): void;
   deposit(
-    amount: number,
     recipient: string,
-    tokenAddress: string
+    tokenAddress: string,
+    amount?: number,
+    id?: string
   ): Promise<void>;
   resetDeposit(): void;
   transactionStatus?: TransactionStatus;
@@ -288,9 +290,10 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
   ]);
 
   const deposit = async (
-    amount: number,
     recipient: string,
-    tokenAddress: string
+    tokenAddress: string,
+    amount?: number,
+    id?: string
   ) => {
     if (!homeBridge || !homeChain) {
       console.log("Home bridge contract is not instantiated");
@@ -312,49 +315,76 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
       (token) => token.address === tokenAddress
     );
 
-    if (!token) {
+    if (
+      !token ||
+      (token.type === "ERC20" && !amount) ||
+      (token.type === "ERC721" && !id)
+    ) {
       console.log("Invalid token selected");
       return;
     }
     setTransactionStatus("Initializing Transfer");
     setDepositAmount(amount);
     setSelectedToken(tokenAddress);
-    const erc20 = Erc20Factory.connect(tokenAddress, signer);
-    const erc20Decimals = tokens[tokenAddress].decimals;
 
-    const data =
-      "0x" +
-      utils
-        .hexZeroPad(
-          // TODO Wire up dynamic token decimals
-          BigNumber.from(
-            utils.parseUnits(amount.toString(), erc20Decimals)
-          ).toHexString(),
-          32
-        )
-        .substr(2) + // Deposit Amount (32 bytes)
-      utils
-        .hexZeroPad(utils.hexlify((recipient.length - 2) / 2), 32)
-        .substr(2) + // len(recipientAddress) (32 bytes)
-      recipient.substr(2); // recipientAddress (?? bytes)
+    let data = "";
 
     try {
-      const currentAllowance = await erc20.allowance(
-        address,
-        homeChain.erc20HandlerAddress
-      );
+      if (token.type === "ERC20") {
+        const erc20Decimals = tokens[tokenAddress].decimals;
+        const erc20 = Erc20Factory.connect(tokenAddress, signer);
+        data =
+          "0x" +
+          utils
+            .hexZeroPad(
+              // TODO Wire up dynamic token decimals
+              BigNumber.from(
+                utils.parseUnits(Number(amount).toString(), erc20Decimals)
+              ).toHexString(),
+              32
+            )
+            .substr(2) + // Deposit Amount (32 bytes)
+          utils
+            .hexZeroPad(utils.hexlify((recipient.length - 2) / 2), 32)
+            .substr(2) + // len(recipientAddress) (32 bytes)
+          recipient.substr(2); // recipientAddress (?? bytes)
 
-      if (Number(utils.formatUnits(currentAllowance, erc20Decimals)) < amount) {
+        const currentAllowance = await erc20.allowance(
+          address,
+          homeChain.erc20HandlerAddress
+        );
+
         if (
-          Number(utils.formatUnits(currentAllowance, erc20Decimals)) > 0 &&
-          resetAllowanceLogicFor.includes(tokenAddress)
+          Number(utils.formatUnits(currentAllowance, erc20Decimals)) <
+          Number(amount)
         ) {
-          //We need to reset the user's allowance to 0 before we give them a new allowance
-          //TODO Should we alert the user this is happening here?
+          if (
+            Number(utils.formatUnits(currentAllowance, erc20Decimals)) > 0 &&
+            resetAllowanceLogicFor.includes(tokenAddress)
+          ) {
+            //We need to reset the user's allowance to 0 before we give them a new allowance
+            //TODO Should we alert the user this is happening here?
+            await (
+              await erc20.approve(
+                homeChain.erc20HandlerAddress,
+                BigNumber.from(utils.parseUnits("0", erc20Decimals)),
+                {
+                  gasPrice: BigNumber.from(
+                    utils.parseUnits(
+                      (homeChain.defaultGasPrice || gasPrice).toString(),
+                      9
+                    )
+                  ).toString(),
+                }
+              )
+            ).wait(1);
+          }
           await (
             await erc20.approve(
               homeChain.erc20HandlerAddress,
-              BigNumber.from(utils.parseUnits("0", erc20Decimals)),
+              BigNumber.from(
+                utils.parseUnits(Number(amount).toString(), erc20Decimals)
+              ),
               {
                 gasPrice: BigNumber.from(
                   utils.parseUnits(
@@ -366,20 +396,33 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
             )
           ).wait(1);
         }
-        await (
-          await erc20.approve(
-            homeChain.erc20HandlerAddress,
-            BigNumber.from(utils.parseUnits(amount.toString(), erc20Decimals)),
-            {
+      } else if (token.type === "ERC721") {
+        const erc721 = Erc721Factory.connect(tokenAddress, signer);
+        // TODO: Confirm this encoding
+        data =
+          "0x" +
+          ethers.utils
+            .hexZeroPad(ethers.utils.hexlify(String(id)), 32)
+            .substr(2) + // Deposit Amount        (32 bytes)
+          ethers.utils
+            .hexZeroPad(ethers.utils.hexlify((recipient.length - 2) / 2), 32)
+            .substr(2) + // len(recipientAddress) (32 bytes)
+          ethers.utils.hexlify(recipient).substr(2); // recipientAddress      (?? bytes)
+
+        const approved = await erc721.getApproved(String(id));
+
+        if (approved !== homeChain.erc721HandlerAddress) {
+          await (
+            await erc721.approve(homeChain.erc721HandlerAddress, String(id), {
               gasPrice: BigNumber.from(
                 utils.parseUnits(
                   (homeChain.defaultGasPrice || gasPrice).toString(),
                   9
                 )
               ).toString(),
-            }
-          )
-        ).wait(1);
+            })
+          ).wait(1);
+        }
       }
 
       homeBridge.once(

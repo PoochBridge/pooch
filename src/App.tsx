@@ -28,13 +28,23 @@ if (
 
 const App: React.FC<{}> = () => {
   const tokens = chainbridgeConfig.chains.reduce((tca, bc) => {
+    const filtered = bc.tokens.filter(
+      (token: TokenConfig) => token.type === "ERC20"
+    );
+
+    const latter =
+      filtered.length > 0
+        ? {
+            [bc.networkId]: filtered,
+          }
+        : {};
+
     return {
       ...tca,
-      [bc.networkId]: bc.tokens.filter(
-        (token: TokenConfig) => token.type === "ERC20"
-      ),
+      ...latter,
     };
   }, {});
+
   return (
     <ErrorBoundary
       fallback={({ error, componentStack, eventId, resetError }) => (

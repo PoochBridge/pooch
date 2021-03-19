@@ -46,7 +46,7 @@ export const chainbridgeConfig: ChainbridgeConfig = {
       nativeTokenSymbol: "ETH",
       tokens: [
         {
-          address: "0x14dD060dB55c0E7cc072BD3ab4709d55583119c0",
+          address: "0x4467982362af543Ab8EbC6BEE25D33CF8d13bA1A",
           name: "Genisis pooch",
           symbol: "Bork",
           imageUri: "",
@@ -69,7 +69,7 @@ export const chainbridgeConfig: ChainbridgeConfig = {
       nativeTokenSymbol: "ETC",
       tokens: [
         {
-          address: "0x14dD060dB55c0E7cc072BD3ab4709d55583119c0",
+          address: "0x4467982362af543Ab8EbC6BEE25D33CF8d13bA1A",
           name: "Genisis pooch",
           symbol: "Bork",
           imageUri: "",
