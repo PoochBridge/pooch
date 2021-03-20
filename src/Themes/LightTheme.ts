@@ -1,39 +1,25 @@
 import { createTheme } from "@chainsafe/common-theme";
+import { UI_CONSTANTS } from "./Constants";
 
 export const lightTheme = createTheme({
   globalStyling: {
+    ":root": {
+      "--gray": "#33312B",
+      "--grayLight": "#FAFAFA",
+      "--white": "#ffffff",
+      "--pink": "#EA279C",
+    },
     body: {
       backgroundColor: "#F5F5F5",
+      minHeight: "100vh",
+      background: "linear-gradient(179.73deg, #FEFEB0 -1.98%, #FF2BB7 164.51%)",
     },
   },
   themeConfig: {
     constants: {
-      navItemHeight: 42,
+      ...UI_CONSTANTS,
     },
-    palette: {
-      additional: {
-        general: {
-          1: "#85A5FF", // Accents //geekblue4
-        },
-        transferUi: {
-          1: "#595959", // FAQ button // gray8
-        },
-        header: {
-          1: "#F5F5F5", // Background
-          2: "#595959", // Text color //gray8
-          3: "#BFBFBF", // border // gray6
-        },
-        preflight: {
-          1: "#85A5FF", // Button bg color
-          2: "#262626", // Button color
-        },
-        transactionModal: {
-          1: "#597EF7", // border //geekblue5
-          2: "#85A5FF", // indicator border //geekblue4
-          3: "#2F54EB", // indicator text //geekblue6
-        },
-      },
-    },
+    palette: {},
     overrides: {
       CheckboxInput: {
         root: {
@@ -44,35 +30,36 @@ export const lightTheme = createTheme({
         variants: {
           primary: {
             root: {
-              backgroundColor: "#262626",
-              color: "#ffffff",
-              border: `1px solid #262626`,
+              backgroundColor: "var(--gray)",
+              color: "var(--white)",
+              border: `unset`,
               "& svg": {
-                fill: "#ffffff",
+                fill: "var(--white)",
               },
             },
             active: {
-              backgroundColor: "#ffffff",
-              color: "#262626",
+              backgroundColor: "var(--white)",
+              color: "var(--gray)",
               "& svg": {
-                fill: "#262626",
+                fill: "var(--gray)",
               },
             },
             hover: {
-              backgroundColor: "#ffffff",
-              color: "#262626",
+              backgroundColor: "var(--white)",
+              color: "var(--gray)",
               "& svg": {
-                fill: "#262626",
+                fill: "var(--gray)",
               },
             },
             focus: {
-              backgroundColor: "#ffffff",
-              color: "#262626",
+              backgroundColor: "var(--white)",
+              color: "var(--gray)",
               "& svg": {
-                fill: "#262626",
+                fill: "var(--gray)",
               },
             },
           },
+
           outline: {
             root: {
               backgroundColor: "transparent",

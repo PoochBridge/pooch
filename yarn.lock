@@ -1183,10 +1183,10 @@
     reset-css "^5.0.1"
     rollup-plugin-babel "^4.4.0"
 
-"@chainsafe/common-theme@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@chainsafe/common-theme/-/common-theme-1.0.6.tgz#7b0afc491ce30d3035a69ddfd04e53eef0595c66"
-  integrity sha512-ULtNirb9oWMio1gtGfcU9iTcF/oaIeogG8KmtvmHlHWiMvshet9JhFbrrpXd4BmhQ+Y9K9SMDT1Eaz6+Gr4dng==
+"@chainsafe/common-theme@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@chainsafe/common-theme/-/common-theme-1.0.7.tgz#5e6b1ae85816ba5e01f5bcbb524b0579fd6a0a37"
+  integrity sha512-wr1FCrqn3ba9rCkZuX+VqYgH1DgkYYLM/yh2LbcNAz9TshvFl1pm8Z0qUSiVrpHLaeMG1g9+7JYNWm0jo43fUA==
   dependencies:
     ts-essentials "^7.0.1"
 

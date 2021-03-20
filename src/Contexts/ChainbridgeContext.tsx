@@ -399,6 +399,8 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
       } else if (token.type === "ERC721") {
         const erc721 = Erc721Factory.connect(tokenAddress, signer);
         // TODO: Confirm this encoding
+        console.log(id, recipient);
+        debugger;
         data =
           "0x" +
           ethers.utils
@@ -410,8 +412,10 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
           ethers.utils.hexlify(recipient).substr(2); // recipientAddress      (?? bytes)
 
         const approved = await erc721.getApproved(String(id));
+        debugger;
 
         if (approved !== homeChain.erc721HandlerAddress) {
+          debugger;
           await (
             await erc721.approve(homeChain.erc721HandlerAddress, String(id), {
               gasPrice: BigNumber.from(
@@ -424,6 +428,7 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
           ).wait(1);
         }
       }
+      debugger;
 
       homeBridge.once(
         homeBridge.filters.Deposit(
