@@ -1,6 +1,8 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme";
 import React from "react";
 import { ReactNode } from "react";
+import AppFooter from "./AppFooter";
+import AppHeader from "./AppHeader";
 
 interface IAppWrapper {
   children: ReactNode | ReactNode[];
@@ -9,20 +11,9 @@ interface IAppWrapper {
 const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
   return createStyles({
     root: {},
-    inner: {},
-    content: {
-      // position: "absolute",
-      // top: "50%",
-      // left: "50%",
-      margin: `0 auto`,
-      // transform: "translate(-50%, -50%)",
-      maxWidth: 460,
-      display: "flex",
-      flexDirection: "column",
-      overflow: "hidden",
-      borderRadius: 4,
+    pageArea: {
+      padding: `${constants.generalUnit * 2}px ${constants.pagePadding}px`,
     },
-    pageArea: {},
   });
 });
 
@@ -31,9 +22,9 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
 
   return (
     <section className={classes.root}>
-      <section className={classes.inner}>
-        <div className={classes.pageArea}>{children}</div>
-      </section>
+      <AppHeader />
+      <div className={classes.pageArea}>{children}</div>
+      <AppFooter />
     </section>
   );
 };
