@@ -70,7 +70,9 @@ const NFTCard: React.FC<INFTCard> = ({
         active: active,
       })}
     >
-      <div className={classes.imageBox}></div>
+      <div className={classes.imageBox}>
+        <img alt={target.name} src={target.image} />
+      </div>
       <div className={classes.textArea}>
         <div className={classes.left}>
           <Typography component="p">{target.collection}</Typography>
