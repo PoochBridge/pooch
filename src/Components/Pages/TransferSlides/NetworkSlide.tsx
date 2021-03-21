@@ -30,6 +30,10 @@ const useStyles = makeStyles(
         },
       },
       select: {
+        "& > span": {
+          ...typography.h5,
+          paddingBottom: constants.generalUnit,
+        },
         "& > div": {
           borderRadius: 5,
           border: `1px solid #888888`,
@@ -37,6 +41,8 @@ const useStyles = makeStyles(
       },
       label: {
         ...typography.h5,
+        paddingBottom: constants.generalUnit,
+        display: "block",
       },
     });
   }
