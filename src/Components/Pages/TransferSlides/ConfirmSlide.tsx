@@ -1,8 +1,10 @@
 import { Button, Typography } from "@chainsafe/common-components";
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme";
+import { useWeb3 } from "@chainsafe/web3-context";
 import clsx from "clsx";
 import React, { useState } from "react";
 import { ERC721Metadata } from "../../../Contexts/ChainbridgeContext";
+import { shortenAddress } from "../../../Utils/Helpers";
 import FormView from "../../FormView";
 import NFTCard from "../../NFTCard";
 
@@ -24,12 +26,33 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       height: 366,
       borderRight: "1px solid #CECECE",
       paddingRight: 38,
+      "& h5": {
+        marginBottom: constants.generalUnit * 2,
+      },
+      "& hr": {
+        marginBottom: constants.generalUnit * 2,
+      },
     },
     right: {
       paddingTop: constants.generalUnit * 2,
       height: 366,
       flex: "1 1 0",
       paddingLeft: 38,
+      "& h5": {
+        marginBottom: constants.generalUnit * 2,
+      },
+      "& hr": {
+        marginBottom: constants.generalUnit * 2,
+      },
+      "& p": {
+        "&:nth-child(even)": {
+          paddingBottom: constants.generalUnit * 2,
+          color: "#555555",
+        },
+        "&:nth-child(odd)": {
+          color: "#888888",
+        },
+      },
     },
     footer: {
       position: "absolute",
@@ -58,6 +81,7 @@ interface IConfirmSlide {
   className?: string;
   submit: () => void;
   back: () => void;
+  targetAddress: string;
 }
 
 const ConfirmSlide: React.FC<IConfirmSlide> = ({
@@ -65,9 +89,11 @@ const ConfirmSlide: React.FC<IConfirmSlide> = ({
   nft,
   back,
   submit,
+  targetAddress,
 }: IConfirmSlide) => {
   const classes = useStyles();
 
+  const { network } = useWeb3();
   return (
     <FormView
       className={clsx(classes.root, className)}
@@ -75,14 +101,14 @@ const ConfirmSlide: React.FC<IConfirmSlide> = ({
     >
       <section className={classes.content}>
         <section className={classes.left}>
-          <Typography variant="h5" component="p">
+          <Typography variant="h5" component="h5">
             Selected NFT
           </Typography>
           <hr />
           <NFTCard target={nft} active={true} />
         </section>
         <section className={classes.right}>
-          <Typography variant="h5" component="p">
+          <Typography variant="h5" component="h5">
             Transfer Details
           </Typography>
           <hr />
@@ -90,19 +116,19 @@ const ConfirmSlide: React.FC<IConfirmSlide> = ({
             Origin Network
           </Typography>
           <Typography variant="h5" component="p">
-            {}
+            {network === 5 ? "Görli" : "Kotti"}
           </Typography>
           <Typography variant="h5" component="p">
             Destination network
           </Typography>
           <Typography variant="h5" component="p">
-            {}
+            {network === 5 ? "Kotti" : "Görli"}
           </Typography>
           <Typography variant="h5" component="p">
             Destination address
           </Typography>
           <Typography variant="h5" component="p">
-            {}
+            {shortenAddress(targetAddress)}
           </Typography>
         </section>
       </section>

@@ -13,6 +13,7 @@ import SelectSlide from "./TransferSlides/SelectSlide";
 import ConfirmSlide from "./TransferSlides/ConfirmSlide";
 import ApproveBlocker from "./TransferSlides/Blockers/ApproveBlocker";
 import ConfirmBlocker from "./TransferSlides/Blockers/ConfirmBlocker";
+import { getNftMetadata } from "../../nfts";
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -74,15 +75,6 @@ const TransferPage = () => {
   } = useWeb3();
   const { homeChain, deposit } = useChainbridge();
 
-  const [walletConnecting, setWalletConnecting] = useState(false);
-
-  const handleConnect = async () => {
-    setWalletConnecting(true);
-    !wallet && (await onboard?.walletSelect());
-    await checkIsReady();
-    setWalletConnecting(false);
-  };
-
   const [erc721, setErc721] = useState<Erc721>();
 
   useEffect(() => {
@@ -113,6 +105,7 @@ const TransferPage = () => {
             address,
             utils.parseUnits(`${i}`, 0)
           );
+          const meta = getNftMetadata(ownerIndex.toHexString());
           newTokens.push({
             id: ownerIndex.toHexString(),
             category: "Art",
@@ -121,6 +114,7 @@ const TransferPage = () => {
             name: "pooch",
             lastPrice: 12,
             rarity: 1,
+            ...meta,
           });
         }
         setTokens(newTokens);
@@ -173,6 +167,7 @@ const TransferPage = () => {
         <ConfirmSlide
           back={() => setSlide("select")}
           nft={targetNFT as ERC721Metadata}
+          targetAddress={`${targetData?.targetAddress}`}
           submit={() => {
             setBlocker("approve");
             if (targetData) {
