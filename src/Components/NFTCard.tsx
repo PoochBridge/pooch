@@ -8,19 +8,43 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
   return createStyles({
     root: {
       width: 200,
-      height: 264,
+      height: 270,
       borderRadius: 5,
       border: "1.5px solid #888888",
+      padding: 10,
       backgroundColor: "white",
       "&.active": {
         boxShadow: "4px 4px 4px rgba(234, 39, 156, 0.25)",
         border: "1.5px solid #EA279C",
       },
     },
-    imageBox: {},
-    textArea: {},
-    left: {},
-    right: {},
+    imageBox: {
+      height: 180,
+      width: 180,
+      backgroundColor: String(palette.additional.pink),
+    },
+    textArea: {
+      paddingTop: constants.generalUnit,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    left: {
+      "& > *:nth-child(even)": {
+        color: "#555555",
+      },
+      "& > *:nth-child(odd)": {
+        color: "#888888",
+      },
+    },
+    right: {
+      "& > *:nth-child(even)": {
+        color: "#555555",
+      },
+      "& > *:nth-child(odd)": {
+        color: "#888888",
+      },
+    },
   });
 });
 
@@ -49,13 +73,13 @@ const NFTCard: React.FC<INFTCard> = ({
       <div className={classes.imageBox}></div>
       <div className={classes.textArea}>
         <div className={classes.left}>
-          <Typography>{target.collection}</Typography>
-          <Typography>{target.name}</Typography>
-          <Typography>1 of {target.rarity}</Typography>
+          <Typography component="p">{target.collection}</Typography>
+          <Typography component="p">{target.name}</Typography>
+          <Typography component="p">1 of {target.rarity}</Typography>
         </div>
         <div className={classes.right}>
-          <Typography>Last Price</Typography>
-          <Typography>Ξ {target.lastPrice}</Typography>
+          <Typography component="p">Last Price</Typography>
+          <Typography component="p">Ξ {target.lastPrice}</Typography>
         </div>
       </div>
     </div>

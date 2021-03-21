@@ -70,8 +70,8 @@ const TransferPage = () => {
     onboard,
     provider,
     address,
+    network,
   } = useWeb3();
-
   const { homeChain, deposit } = useChainbridge();
 
   const [walletConnecting, setWalletConnecting] = useState(false);
@@ -136,7 +136,7 @@ const TransferPage = () => {
     targetAddress: string;
     targetNetwork: Network;
   }>();
-  // TODO: Get current network
+
   const [targetNFT, setTargetNFT] = useState<ERC721Metadata>();
 
   const [blocker, setBlocker] = useState<"closed" | "approve" | "confirm">(
@@ -147,7 +147,8 @@ const TransferPage = () => {
     <article className={classes.root}>
       {slide === "network" ? (
         <NetworkSlide
-          currentNetwork="Görli"
+          // TODO: Improve
+          currentNetwork={network === 5 ? "Görli" : "Kotti"}
           submit={(targetNetwork: Network, targetAddress: string) => {
             setTargetData({
               targetAddress,
