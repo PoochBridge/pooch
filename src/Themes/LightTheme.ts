@@ -19,7 +19,14 @@ export const lightTheme = createTheme({
     constants: {
       ...UI_CONSTANTS,
     },
-    palette: {},
+    palette: {
+      additional: {
+        gray: "var(--gray)",
+        grayLight: "var(--grayLight)",
+        white: "var(--white)",
+        pink: "var(--pink)",
+      },
+    },
     overrides: {
       CheckboxInput: {
         root: {
@@ -27,6 +34,11 @@ export const lightTheme = createTheme({
         },
       },
       Button: {
+        root: {
+          borderRadius: 12,
+          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.15)",
+          fontWeight: 500,
+        },
         variants: {
           primary: {
             root: {

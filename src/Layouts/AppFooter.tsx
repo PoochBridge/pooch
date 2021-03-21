@@ -15,6 +15,7 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       flexDirection: "row",
       justifyContent: "space-between",
       position: "relative",
+      height: Number(constants.headerHeight),
     },
     links: {
       display: "flex",
@@ -43,13 +44,25 @@ const AppFooter: React.FC = () => {
         Created for NFTHack 2021
       </Typography>
       <div className={classes.links}>
-        <a target="_blank" href="https://twitter.com/poochbridge">
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://twitter.com/poochbridge"
+        >
           <img alt="twitter" src={TwitterSvg} />
         </a>
-        <a target="_blank" href="https://github.com/PoochBridge/pooch">
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://github.com/PoochBridge/pooch"
+        >
           <img alt="github" src={GithubSvg} />
         </a>
-        <a target="_blank" href="https://medium.com/pooch-blog">
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://medium.com/pooch-blog"
+        >
           <img alt="medium" src={MediumSvg} />
         </a>
       </div>

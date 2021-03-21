@@ -13,6 +13,7 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
     root: {},
     pageArea: {
       padding: `${constants.generalUnit * 2}px ${constants.pagePadding}px`,
+      minHeight: `calc(100vh - ${Number(constants.headerHeight) * 2}px)`,
     },
   });
 });

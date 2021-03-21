@@ -7,6 +7,7 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
     root: {
       padding: `${constants.generalUnit * 2}px ${constants.pagePadding}px`,
       width: "100%",
+      height: Number(constants.headerHeight),
     },
   });
 });
