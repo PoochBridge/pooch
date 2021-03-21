@@ -37,12 +37,29 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
         padding: `0 ${constants.generalUnit}px`,
       },
     },
+    wrapper: {
+      maxHeight: "50vh",
+      margin: `${constants.generalUnit * 2}px 0`,
+    },
     items: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-evenly",
+      margin: `${constants.generalUnit * 2}px 0`,
+      flexWrap: "wrap",
     },
-    footer: {},
+    card: {
+      cursor: "pointer",
+      margin: constants.generalUnit,
+    },
+    footer: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      "& > *": {
+        marginLeft: constants.generalUnit,
+      },
+    },
   });
 });
 
@@ -105,14 +122,25 @@ const SelectSlide: React.FC<ISelectSlide> = ({
           <img alt="other" src={OtherSvg} />
         </div>
       </section>
-      <ScrollbarWrapper className={classes.items}>
-        {nfts.map((item: ERC721Metadata, index: number) => (
-          <NFTCard key={`nft-${index}`} target={item} />
-        ))}
+      <ScrollbarWrapper className={classes.wrapper}>
+        <section className={classes.items}>
+          {nfts.map((item: ERC721Metadata, index: number) => (
+            <NFTCard
+              active={selected?.id === item.id}
+              className={classes.card}
+              onClick={() => setSelected(item)}
+              key={`nft-${index}`}
+              target={item}
+            />
+          ))}
+        </section>
       </ScrollbarWrapper>
       <footer className={classes.footer}>
-        <Button variant="outline">Back</Button>
+        <Button size="large" onClick={() => back()} variant="outline">
+          Back
+        </Button>
         <Button
+          size="large"
           onClick={() => submit(selected as ERC721Metadata)}
           disabled={!selected}
           variant="primary"

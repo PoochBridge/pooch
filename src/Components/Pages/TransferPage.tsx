@@ -10,6 +10,7 @@ import { Erc721, Erc721Factory } from "@chainsafe/chainbridge-contracts";
 import { utils } from "ethers";
 import NetworkSlide, { Network } from "./TransferSlides/NetworkSlide";
 import SelectSlide from "./TransferSlides/SelectSlide";
+import ConfirmSlide from "./TransferSlides/ConfirmSlide";
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -133,6 +134,8 @@ const TransferPage = () => {
   // TODO: Get current network
   const [targetNFT, setTargetNFT] = useState<ERC721Metadata>();
 
+  const [blocker, setBlocker] = useState<"closed" | "approve" | "confirm">();
+
   return (
     <article className={classes.root}>
       {slide === "network" ? (
@@ -155,7 +158,14 @@ const TransferPage = () => {
           nfts={tokens}
         />
       ) : (
-        ""
+        <ConfirmSlide
+          back={() => setSlide("select")}
+          nft={targetNFT as ERC721Metadata}
+          submit={() => {
+            setBlocker("approve");
+            // TODO:
+          }}
+        />
       )}
 
       <div className={classes.walletArea}>

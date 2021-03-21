@@ -74,8 +74,8 @@ export const lightTheme = createTheme({
           outline: {
             root: {
               backgroundColor: "transparent",
-              color: "#ffffff",
-              border: `1px solid #ffffff`,
+              color: "#888888",
+              border: `1px solid #888888`,
               "& svg": {
                 fill: "#ffffff",
               },

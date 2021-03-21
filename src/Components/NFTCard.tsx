@@ -12,6 +12,10 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       borderRadius: 5,
       border: "1.5px solid #888888",
       backgroundColor: "white",
+      "&.active": {
+        boxShadow: "4px 4px 4px rgba(234, 39, 156, 0.25)",
+        border: "1.5px solid #EA279C",
+      },
     },
     imageBox: {},
     textArea: {},
@@ -22,14 +26,26 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
 
 interface INFTCard {
   target: ERC721Metadata;
+  onClick?: () => void;
   className?: string;
+  active?: boolean;
 }
 
-const NFTCard: React.FC<INFTCard> = ({ target, className }: INFTCard) => {
+const NFTCard: React.FC<INFTCard> = ({
+  target,
+  active,
+  className,
+  onClick,
+}: INFTCard) => {
   const classes = useStyles();
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div
+      onClick={onClick}
+      className={clsx(classes.root, className, {
+        active: active,
+      })}
+    >
       <div className={classes.imageBox}></div>
       <div className={classes.textArea}>
         <div className={classes.left}>
