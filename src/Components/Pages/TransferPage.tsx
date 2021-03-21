@@ -98,16 +98,11 @@ const TransferPage = () => {
             utils.parseUnits(`${i}`, 0)
           );
           const meta = getNftMetadata(ownerIndex.toHexString());
-          newTokens.push({
-            id: ownerIndex.toHexString(),
-            category: "Art",
-            collection: "Test",
-            image: "",
-            name: "pooch",
-            lastPrice: 12,
-            rarity: 1,
-            ...meta,
-          });
+          if (meta) {
+            newTokens.push({
+              ...meta,
+            });
+          }
         }
         setTokens(newTokens);
         console.log(newTokens);

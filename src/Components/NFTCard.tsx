@@ -21,7 +21,11 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
     imageBox: {
       height: 180,
       width: 180,
-      backgroundColor: String(palette.additional.pink),
+      overflow: "hidden",
+      "& img": {
+        height: "100%",
+        margin: "0 auto",
+      },
     },
     textArea: {
       paddingTop: constants.generalUnit,
