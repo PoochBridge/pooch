@@ -4,13 +4,15 @@ import {
   ERC721Metadata,
   useChainbridge,
 } from "../../Contexts/ChainbridgeContext";
-import { Button, Typography } from "@chainsafe/common-components";
+import { Button, Modal, Typography } from "@chainsafe/common-components";
 import { useWeb3 } from "@chainsafe/web3-context";
 import { Erc721, Erc721Factory } from "@chainsafe/chainbridge-contracts";
 import { utils } from "ethers";
 import NetworkSlide, { Network } from "./TransferSlides/NetworkSlide";
 import SelectSlide from "./TransferSlides/SelectSlide";
 import ConfirmSlide from "./TransferSlides/ConfirmSlide";
+import ApproveBlocker from "./TransferSlides/Blockers/ApproveBlocker";
+import ConfirmBlocker from "./TransferSlides/Blockers/ConfirmBlocker";
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -51,6 +53,9 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
       color: palette.additional["gray"][9],
       marginTop: constants.generalUnit,
       marginBottom: constants.generalUnit * 3,
+    },
+    innerModal: {
+      backgroundColor: "unset",
     },
   })
 );
@@ -135,7 +140,9 @@ const TransferPage = () => {
   // TODO: Get current network
   const [targetNFT, setTargetNFT] = useState<ERC721Metadata>();
 
-  const [blocker, setBlocker] = useState<"closed" | "approve" | "confirm">();
+  const [blocker, setBlocker] = useState<"closed" | "approve" | "confirm">(
+    "closed"
+  );
 
   return (
     <article className={classes.root}>
@@ -155,7 +162,10 @@ const TransferPage = () => {
           back={() => {
             setSlide("network");
           }}
-          submit={setTargetNFT}
+          submit={(nft: ERC721Metadata) => {
+            setTargetNFT(nft);
+            setSlide("confirm");
+          }}
           nfts={tokens}
         />
       ) : (
@@ -175,7 +185,14 @@ const TransferPage = () => {
           }}
         />
       )}
-
+      <Modal
+        injectedClass={{
+          inner: classes.innerModal,
+        }}
+        active={blocker !== "closed"}
+      >
+        {blocker === "approve" ? <ApproveBlocker /> : <ConfirmBlocker />}
+      </Modal>
       <div className={classes.walletArea}>
         {!isReady ? (
           <Button
