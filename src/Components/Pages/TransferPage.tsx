@@ -119,6 +119,7 @@ const TransferPage = () => {
           });
         }
         setTokens(newTokens);
+        console.log(newTokens);
       };
       fetch();
     }
@@ -163,7 +164,14 @@ const TransferPage = () => {
           nft={targetNFT as ERC721Metadata}
           submit={() => {
             setBlocker("approve");
-            // TODO:
+            if (targetData) {
+              deposit(
+                targetData?.targetAddress,
+                homeChain?.tokens[0].address || "",
+                undefined,
+                targetNFT?.id
+              );
+            }
           }}
         />
       )}
