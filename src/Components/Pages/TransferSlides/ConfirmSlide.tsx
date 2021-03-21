@@ -10,15 +10,34 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
   return createStyles({
     root: {
       maxWidth: 620,
+      width: "80vw",
+      margin: "0 auto",
+      position: "relative",
+      height: "50vh",
+      maxHeight: 550,
+    },
+    content: {
+      display: "flex",
     },
     left: {
+      paddingTop: constants.generalUnit * 2,
       height: 366,
       borderRight: "1px solid #CECECE",
+      paddingRight: 38,
     },
     right: {
+      paddingTop: constants.generalUnit * 2,
       height: 366,
+      flex: "1 1 0",
+      paddingLeft: 38,
     },
     footer: {
+      position: "absolute",
+      left: 0,
+      bottom: 0,
+      backgroundColor: "white",
+      padding: `${constants.generalUnit * 1.5}px`,
+      width: "100%",
       display: "flex",
       flexDirection: "row",
       justifyContent: "flex-end",
@@ -27,6 +46,9 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       "& > *": {
         marginLeft: constants.generalUnit,
       },
+    },
+    button: {
+      backgroundColor: String(palette.additional.pink),
     },
   });
 });
@@ -53,26 +75,47 @@ const ConfirmSlide: React.FC<IConfirmSlide> = ({
       className={clsx(classes.root, className)}
       heading="Confirm Transfer"
     >
-      <section>
+      <section className={classes.content}>
         <section className={classes.left}>
-          <Typography component="p">Selected NFT</Typography>
+          <Typography variant="h5" component="p">
+            Selected NFT
+          </Typography>
           <hr />
           <NFTCard target={nft} active={true} />
         </section>
         <section className={classes.right}>
-          <Typography component="p">Transfer Details</Typography>
+          <Typography variant="h5" component="p">
+            Transfer Details
+          </Typography>
           <hr />
-          <Typography component="p">Origin Network</Typography>
-          <Typography component="p">{}</Typography>
-          <Typography component="p">Destination network</Typography>
-          <Typography component="p">{}</Typography>
-          <Typography component="p">Destination address</Typography>
-          <Typography component="p">{}</Typography>
+          <Typography variant="h5" component="p">
+            Origin Network
+          </Typography>
+          <Typography variant="h5" component="p">
+            {}
+          </Typography>
+          <Typography variant="h5" component="p">
+            Destination network
+          </Typography>
+          <Typography variant="h5" component="p">
+            {}
+          </Typography>
+          <Typography variant="h5" component="p">
+            Destination address
+          </Typography>
+          <Typography variant="h5" component="p">
+            {}
+          </Typography>
         </section>
       </section>
       <footer className={classes.footer}>
         <Button variant="outline">Back</Button>
-        <Button onClick={() => submit()} disabled={!selected} variant="primary">
+        <Button
+          className={classes.button}
+          onClick={() => submit()}
+          disabled={!selected}
+          variant="primary"
+        >
           Transfer NFT
         </Button>
       </footer>

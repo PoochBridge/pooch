@@ -25,7 +25,10 @@ import TradingCardsSvg from "./tabs/trading-cards.svg";
 const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
   return createStyles({
     root: {
+      margin: "0 auto",
       maxHeight: "70vh",
+      maxWidth: 1164,
+      width: "80vw",
     },
     categories: {
       display: "flex",
@@ -59,6 +62,9 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       "& > *": {
         marginLeft: constants.generalUnit,
       },
+    },
+    button: {
+      backgroundColor: String(palette.additional.pink),
     },
   });
 });
@@ -140,6 +146,7 @@ const SelectSlide: React.FC<ISelectSlide> = ({
           Back
         </Button>
         <Button
+          className={classes.button}
           size="large"
           onClick={() => submit(selected as ERC721Metadata)}
           disabled={!selected}
