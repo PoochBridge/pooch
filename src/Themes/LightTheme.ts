@@ -10,6 +10,7 @@ export const lightTheme = createTheme({
       "--pink": "#EA279C",
     },
     body: {
+      fontFamily: `'Rubik', sans-serif`,
       backgroundColor: "#F5F5F5",
       minHeight: "100vh",
       background: "linear-gradient(179.73deg, #FEFEB0 -1.98%, #FF2BB7 164.51%)",
