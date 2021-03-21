@@ -102,6 +102,16 @@ const TransferPage = () => {
             newTokens.push({
               ...meta,
             });
+          } else {
+            newTokens.push({
+              category: "Art",
+              collection: "Pooch",
+              id: ownerIndex.toHexString(),
+              image: "",
+              lastPrice: 1,
+              name: `${ownerIndex.toHexString()}`,
+              rarity: 1,
+            });
           }
         }
         setTokens(newTokens);
