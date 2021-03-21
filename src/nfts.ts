@@ -92,15 +92,15 @@ const nfts: ERC721Metadata[] = [
     name: "ELLIE",
     id: "0x109",
   },
-  // {
-  //   image: TenSVG,
-  //   category: "Trading Cards",
-  //   collection: "OGPooch",
-  //   rarity: 1,
-  //   lastPrice: 19.2,
-  //   name: "MINNIE",
-  //   id: "0x1010",
-  // },
+  {
+    image: TenSVG,
+    category: "Trading Cards",
+    collection: "OGPooch",
+    rarity: 1,
+    lastPrice: 19.2,
+    name: "MINNIE",
+    id: "0x10",
+  },
 ];
 
 export const getNftMetadata = (id: string): ERC721Metadata | undefined =>
