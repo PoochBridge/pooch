@@ -339,7 +339,6 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
           "0x" +
           utils
             .hexZeroPad(
-              // TODO Wire up dynamic token decimals
               BigNumber.from(
                 utils.parseUnits(Number(amount).toString(), erc20Decimals)
               ).toHexString(),
@@ -364,8 +363,6 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
             Number(utils.formatUnits(currentAllowance, erc20Decimals)) > 0 &&
             resetAllowanceLogicFor.includes(tokenAddress)
           ) {
-            //We need to reset the user's allowance to 0 before we give them a new allowance
-            //TODO Should we alert the user this is happening here?
             await (
               await erc20.approve(
                 homeChain.erc20HandlerAddress,
@@ -400,9 +397,6 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
         }
       } else if (token.type === "ERC721") {
         const erc721 = Erc721Factory.connect(tokenAddress, signer);
-        // TODO: Confirm this encoding
-        console.log(id, recipient);
-        debugger;
         data =
           "0x" +
           ethers.utils
@@ -414,10 +408,8 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
           ethers.utils.hexlify(recipient).substr(2); // recipientAddress      (?? bytes)
 
         const approved = await erc721.getApproved(String(id));
-        debugger;
 
         if (approved !== homeChain.erc721HandlerAddress) {
-          debugger;
           await (
             await erc721.approve(homeChain.erc721HandlerAddress, String(id), {
               gasPrice: BigNumber.from(
@@ -430,7 +422,6 @@ const ChainbridgeProvider = ({ children }: IChainbridgeContextProps) => {
           ).wait(1);
         }
       }
-      debugger;
 
       homeBridge.once(
         homeBridge.filters.Deposit(
