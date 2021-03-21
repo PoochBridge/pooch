@@ -24,7 +24,7 @@ const resetAllowanceLogicFor = [
   //Add other offending tokens here
 ];
 
-type Category =
+export type Category =
   | "Art"
   | "Photography"
   | "Music"
@@ -40,6 +40,8 @@ export type ERC721Metadata = {
   collection: string;
   rarity: number;
   lastPrice: number;
+  name: string;
+  id: string;
 };
 
 type ChainbridgeContext = {

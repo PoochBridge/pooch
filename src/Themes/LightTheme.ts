@@ -71,7 +71,6 @@ export const lightTheme = createTheme({
               },
             },
           },
-
           outline: {
             root: {
               backgroundColor: "transparent",
