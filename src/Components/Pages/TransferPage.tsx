@@ -168,15 +168,16 @@ const TransferPage = () => {
           back={() => setSlide("select")}
           nft={targetNFT as ERC721Metadata}
           targetAddress={`${targetData?.targetAddress}`}
-          submit={() => {
-            setBlocker("approve");
+          submit={async () => {
             if (targetData) {
-              deposit(
+              setBlocker("approve");
+              await deposit(
                 targetData?.targetAddress,
                 homeChain?.tokens[0].address || "",
                 undefined,
                 targetNFT?.id
               );
+              setBlocker("confirm");
             }
           }}
         />
