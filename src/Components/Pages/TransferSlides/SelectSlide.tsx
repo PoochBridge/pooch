@@ -55,6 +55,9 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       cursor: "pointer",
       margin: constants.generalUnit,
     },
+    category: {
+      "&.active": {},
+    },
     footer: {
       display: "flex",
       flexDirection: "row",
@@ -93,52 +96,114 @@ const SelectSlide: React.FC<ISelectSlide> = ({
       className={clsx(classes.root, className)}
       heading="Select NFT to Transfer"
     >
-      <section className={classes.categories}>
-        <div>
+      <section
+        onClick={() => setFilter(undefined)}
+        className={classes.categories}
+      >
+        <div
+          className={clsx(classes.category, {
+            active: filter === undefined,
+          })}
+        >
           <img alt="all" src={AllSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Art")}
+          className={clsx(classes.category, {
+            active: filter === "Art",
+          })}
+        >
           <img alt="art" src={ArtSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Photography")}
+          className={clsx(classes.category, {
+            active: filter === "Photography",
+          })}
+        >
           <img alt="photography" src={PhotographySvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Music")}
+          className={clsx(classes.category, {
+            active: filter === "Music",
+          })}
+        >
           <img alt="music" src={MusicSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Games")}
+          className={clsx(classes.category, {
+            active: filter === "Games",
+          })}
+        >
           <img alt="games" src={GamesSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Domains")}
+          className={clsx(classes.category, {
+            active: filter === "Domains",
+          })}
+        >
           <img alt="domain names" src={DomainNamesSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Trading Cards")}
+          className={clsx(classes.category, {
+            active: filter === "Trading Cards",
+          })}
+        >
           <img alt="trading cards" src={TradingCardsSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Defi")}
+          className={clsx(classes.category, {
+            active: filter === "Defi",
+          })}
+        >
           <img alt="defi" src={DefiSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Memes")}
+          className={clsx(classes.category, {
+            active: filter === "Memes",
+          })}
+        >
           <img alt="memes" src={MemesSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Punks")}
+          className={clsx(classes.category, {
+            active: filter === "Punks",
+          })}
+        >
           <img alt="punks" src={PunksSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Other")}
+          className={clsx(classes.category, {
+            active: filter === "Other",
+          })}
+        >
           <img alt="other" src={OtherSvg} />
         </div>
       </section>
       <ScrollbarWrapper className={classes.wrapper}>
         <section className={classes.items}>
-          {nfts.map((item: ERC721Metadata, index: number) => (
-            <NFTCard
-              active={selected?.id === item.id}
-              className={classes.card}
-              onClick={() => setSelected(item)}
-              key={`nft-${index}`}
-              target={item}
-            />
-          ))}
+          {nfts
+            .filter(
+              (item: ERC721Metadata) =>
+                filter === undefined || item.category === filter
+            )
+            .map((item: ERC721Metadata, index: number) => (
+              <NFTCard
+                active={selected?.id === item.id}
+                className={classes.card}
+                onClick={() => setSelected(item)}
+                key={`nft-${index}`}
+                target={item}
+              />
+            ))}
         </section>
       </ScrollbarWrapper>
       <footer className={classes.footer}>
