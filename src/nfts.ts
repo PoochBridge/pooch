@@ -1,8 +1,18 @@
 import { ERC721Metadata } from "./Contexts/ChainbridgeContext";
+import OneSVG from "./media/1.svg";
+import TwoSVG from "./media/1.svg";
+import ThreeSVG from "./media/1.svg";
+import FourSVG from "./media/1.svg";
+import FiveSVG from "./media/1.svg";
+import SixSVG from "./media/1.svg";
+import SevenSVG from "./media/1.svg";
+import EightSVG from "./media/1.svg";
+import NineSVG from "./media/1.svg";
+import TenSVG from "./media/1.svg";
 
 const nfts: ERC721Metadata[] = [
   {
-    image: "/1.svg",
+    image: OneSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
@@ -11,7 +21,7 @@ const nfts: ERC721Metadata[] = [
     id: "0x1",
   },
   {
-    image: "/2.svg",
+    image: TwoSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
@@ -20,7 +30,7 @@ const nfts: ERC721Metadata[] = [
     id: "0x2",
   },
   {
-    image: "/3.svg",
+    image: ThreeSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
@@ -29,7 +39,7 @@ const nfts: ERC721Metadata[] = [
     id: "0x3",
   },
   {
-    image: "/4.svg",
+    image: FourSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
@@ -38,7 +48,7 @@ const nfts: ERC721Metadata[] = [
     id: "0x4",
   },
   {
-    image: "/5.svg",
+    image: FiveSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
@@ -47,7 +57,7 @@ const nfts: ERC721Metadata[] = [
     id: "0x5",
   },
   {
-    image: "/6.svg",
+    image: SixSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
@@ -56,7 +66,7 @@ const nfts: ERC721Metadata[] = [
     id: "0x6",
   },
   {
-    image: "/7.svg",
+    image: SevenSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
@@ -65,7 +75,7 @@ const nfts: ERC721Metadata[] = [
     id: "0x7",
   },
   {
-    image: "/8.svg",
+    image: EightSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
@@ -74,7 +84,7 @@ const nfts: ERC721Metadata[] = [
     id: "0x8",
   },
   {
-    image: "/9.svg",
+    image: NineSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
@@ -83,7 +93,7 @@ const nfts: ERC721Metadata[] = [
     id: "0x9",
   },
   {
-    image: "/10.svg",
+    image: TenSVG,
     category: "Trading Cards",
     collection: "OGPooch",
     rarity: 1,
