@@ -70,8 +70,8 @@ const TransferPage = () => {
     onboard,
     provider,
     address,
+    network,
   } = useWeb3();
-
   const { homeChain, deposit } = useChainbridge();
 
   const [walletConnecting, setWalletConnecting] = useState(false);
@@ -137,7 +137,7 @@ const TransferPage = () => {
     targetAddress: string;
     targetNetwork: Network;
   }>();
-  // TODO: Get current network
+
   const [targetNFT, setTargetNFT] = useState<ERC721Metadata>();
 
   const [blocker, setBlocker] = useState<"closed" | "approve" | "confirm">(
@@ -148,7 +148,8 @@ const TransferPage = () => {
     <article className={classes.root}>
       {slide === "network" ? (
         <NetworkSlide
-          currentNetwork="Görli"
+          // TODO: Improve
+          currentNetwork={network === 5 ? "Görli" : "Kotti"}
           submit={(targetNetwork: Network, targetAddress: string) => {
             setTargetData({
               targetAddress,
@@ -193,56 +194,6 @@ const TransferPage = () => {
       >
         {blocker === "approve" ? <ApproveBlocker /> : <ConfirmBlocker />}
       </Modal>
-      <div className={classes.walletArea}>
-        {!isReady ? (
-          <Button
-            className={classes.connectButton}
-            fullsize
-            onClick={() => {
-              handleConnect();
-            }}
-          >
-            Connect Metamask
-          </Button>
-        ) : walletConnecting ? (
-          <section className={classes.connecting}>
-            <Typography component="p" variant="h5">
-              This app requires access to your wallet, <br />
-              please login and authorize access to continue.
-            </Typography>
-          </section>
-        ) : (
-          <section className={classes.connected}>
-            <div>
-              <Typography variant="body1">Home network</Typography>
-            </div>
-            <Typography
-              component="h2"
-              variant="h2"
-              className={classes.networkName}
-            >
-              {homeChain?.name}
-            </Typography>
-            <Typography>{tokens ? tokens.length : "buffering"}</Typography>
-            {address && homeChain && tokens && (
-              <Button
-                onClick={() =>
-                  deposit(
-                    address,
-                    homeChain?.tokens[0].address,
-                    undefined,
-                    tokens[0].id
-                  )
-                }
-                type="button"
-                variant="primary"
-              >
-                Transfer
-              </Button>
-            )}
-          </section>
-        )}
-      </div>
     </article>
   );
 };

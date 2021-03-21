@@ -32,6 +32,8 @@ export type Category =
   | "Domains"
   | "Trading Cards"
   | "Defi"
+  | "Punks"
+  | "Memes"
   | "Other";
 
 export type ERC721Metadata = {

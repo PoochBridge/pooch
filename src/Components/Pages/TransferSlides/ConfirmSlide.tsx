@@ -68,8 +68,6 @@ const ConfirmSlide: React.FC<IConfirmSlide> = ({
 }: IConfirmSlide) => {
   const classes = useStyles();
 
-  const [selected, setSelected] = useState<ERC721Metadata>();
-
   return (
     <FormView
       className={clsx(classes.root, className)}
@@ -109,11 +107,12 @@ const ConfirmSlide: React.FC<IConfirmSlide> = ({
         </section>
       </section>
       <footer className={classes.footer}>
-        <Button variant="outline">Back</Button>
+        <Button onClick={() => back()} variant="outline">
+          Back
+        </Button>
         <Button
           className={classes.button}
           onClick={() => submit()}
-          disabled={!selected}
           variant="primary"
         >
           Transfer NFT

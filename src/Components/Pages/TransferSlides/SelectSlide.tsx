@@ -3,6 +3,7 @@ import {
   ScrollbarWrapper,
   SelectInput,
   TextInput,
+  Typography,
 } from "@chainsafe/common-components";
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme";
 import clsx from "clsx";
@@ -29,12 +30,15 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       maxHeight: "70vh",
       maxWidth: 1164,
       width: "80vw",
+      position: "relative",
+      paddingBottom: 65,
     },
     categories: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-evenly",
       alignItems: "center",
+      borderBottom: "1px solid #CECECE",
       "& img": {
         width: "100%",
         padding: `0 ${constants.generalUnit}px`,
@@ -55,10 +59,22 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       cursor: "pointer",
       margin: constants.generalUnit,
     },
+    category: {
+      cursor: "pointer",
+      "&.active": {},
+    },
     footer: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "flex-end",
+      boxShadow: "0px -1px 4px rgba(0, 0, 0, 0.25)",
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      width: "100%",
+      padding: constants.generalUnit * 2,
+      backgroundColor: String(palette.additional.grayLight),
+      height: 65,
       "& > *": {
         marginLeft: constants.generalUnit,
       },
@@ -94,51 +110,115 @@ const SelectSlide: React.FC<ISelectSlide> = ({
       heading="Select NFT to Transfer"
     >
       <section className={classes.categories}>
-        <div>
+        <div
+          onClick={() => setFilter(undefined)}
+          className={clsx(classes.category, {
+            active: filter === undefined,
+          })}
+        >
           <img alt="all" src={AllSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Art")}
+          className={clsx(classes.category, {
+            active: filter === "Art",
+          })}
+        >
           <img alt="art" src={ArtSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Photography")}
+          className={clsx(classes.category, {
+            active: filter === "Photography",
+          })}
+        >
           <img alt="photography" src={PhotographySvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Music")}
+          className={clsx(classes.category, {
+            active: filter === "Music",
+          })}
+        >
           <img alt="music" src={MusicSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Games")}
+          className={clsx(classes.category, {
+            active: filter === "Games",
+          })}
+        >
           <img alt="games" src={GamesSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Domains")}
+          className={clsx(classes.category, {
+            active: filter === "Domains",
+          })}
+        >
           <img alt="domain names" src={DomainNamesSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Trading Cards")}
+          className={clsx(classes.category, {
+            active: filter === "Trading Cards",
+          })}
+        >
           <img alt="trading cards" src={TradingCardsSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Defi")}
+          className={clsx(classes.category, {
+            active: filter === "Defi",
+          })}
+        >
           <img alt="defi" src={DefiSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Memes")}
+          className={clsx(classes.category, {
+            active: filter === "Memes",
+          })}
+        >
           <img alt="memes" src={MemesSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Punks")}
+          className={clsx(classes.category, {
+            active: filter === "Punks",
+          })}
+        >
           <img alt="punks" src={PunksSvg} />
         </div>
-        <div>
+        <div
+          onClick={() => setFilter("Other")}
+          className={clsx(classes.category, {
+            active: filter === "Other",
+          })}
+        >
           <img alt="other" src={OtherSvg} />
         </div>
       </section>
       <ScrollbarWrapper className={classes.wrapper}>
         <section className={classes.items}>
-          {nfts.map((item: ERC721Metadata, index: number) => (
-            <NFTCard
-              active={selected?.id === item.id}
-              className={classes.card}
-              onClick={() => setSelected(item)}
-              key={`nft-${index}`}
-              target={item}
-            />
-          ))}
+          {nfts
+            .filter(
+              (item: ERC721Metadata) =>
+                filter === undefined || item.category === filter
+            )
+            .map((item: ERC721Metadata, index: number) => (
+              <NFTCard
+                active={selected?.id === item.id}
+                className={classes.card}
+                onClick={() => setSelected(item)}
+                key={`nft-${index}`}
+                target={item}
+              />
+            ))}
+          {nfts.filter(
+            (item: ERC721Metadata) =>
+              filter === undefined || item.category === filter
+          ).length === 0 && <Typography>None to display</Typography>}
         </section>
       </ScrollbarWrapper>
       <footer className={classes.footer}>
