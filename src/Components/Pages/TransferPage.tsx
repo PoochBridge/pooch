@@ -64,16 +64,8 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
 const TransferPage = () => {
   const classes = useStyles();
 
-  const {
-    isReady,
-    checkIsReady,
-    wallet,
-    onboard,
-    provider,
-    address,
-    network,
-  } = useWeb3();
-  const { homeChain, deposit } = useChainbridge();
+  const { provider, address, network } = useWeb3();
+  const { homeChain, deposit, transactionStatus } = useChainbridge();
 
   const [erc721, setErc721] = useState<Erc721>();
 
@@ -137,6 +129,14 @@ const TransferPage = () => {
   const [blocker, setBlocker] = useState<"closed" | "approve" | "confirm">(
     "closed"
   );
+
+  useEffect(() => {
+    if (blocker !== "closed") {
+      if (transactionStatus === "Transfer Completed") {
+        setBlocker("closed");
+      }
+    }
+  }, [blocker, transactionStatus]);
 
   return (
     <article className={classes.root}>
