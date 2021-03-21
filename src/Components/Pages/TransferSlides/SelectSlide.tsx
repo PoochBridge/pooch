@@ -3,6 +3,7 @@ import {
   ScrollbarWrapper,
   SelectInput,
   TextInput,
+  Typography,
 } from "@chainsafe/common-components";
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme";
 import clsx from "clsx";
@@ -29,12 +30,15 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       maxHeight: "70vh",
       maxWidth: 1164,
       width: "80vw",
+      position: "relative",
+      paddingBottom: 65,
     },
     categories: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-evenly",
       alignItems: "center",
+      borderBottom: "1px solid #CECECE",
       "& img": {
         width: "100%",
         padding: `0 ${constants.generalUnit}px`,
@@ -56,12 +60,21 @@ const useStyles = makeStyles(({ animation, constants, palette }: ITheme) => {
       margin: constants.generalUnit,
     },
     category: {
+      cursor: "pointer",
       "&.active": {},
     },
     footer: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "flex-end",
+      boxShadow: "0px -1px 4px rgba(0, 0, 0, 0.25)",
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      width: "100%",
+      padding: constants.generalUnit * 2,
+      backgroundColor: String(palette.additional.grayLight),
+      height: 65,
       "& > *": {
         marginLeft: constants.generalUnit,
       },
@@ -96,11 +109,9 @@ const SelectSlide: React.FC<ISelectSlide> = ({
       className={clsx(classes.root, className)}
       heading="Select NFT to Transfer"
     >
-      <section
-        onClick={() => setFilter(undefined)}
-        className={classes.categories}
-      >
+      <section className={classes.categories}>
         <div
+          onClick={() => setFilter(undefined)}
           className={clsx(classes.category, {
             active: filter === undefined,
           })}
@@ -204,6 +215,10 @@ const SelectSlide: React.FC<ISelectSlide> = ({
                 target={item}
               />
             ))}
+          {nfts.filter(
+            (item: ERC721Metadata) =>
+              filter === undefined || item.category === filter
+          ).length === 0 && <Typography>None to display</Typography>}
         </section>
       </ScrollbarWrapper>
       <footer className={classes.footer}>

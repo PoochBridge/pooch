@@ -194,56 +194,6 @@ const TransferPage = () => {
       >
         {blocker === "approve" ? <ApproveBlocker /> : <ConfirmBlocker />}
       </Modal>
-      <div className={classes.walletArea}>
-        {!isReady ? (
-          <Button
-            className={classes.connectButton}
-            fullsize
-            onClick={() => {
-              handleConnect();
-            }}
-          >
-            Connect Metamask
-          </Button>
-        ) : walletConnecting ? (
-          <section className={classes.connecting}>
-            <Typography component="p" variant="h5">
-              This app requires access to your wallet, <br />
-              please login and authorize access to continue.
-            </Typography>
-          </section>
-        ) : (
-          <section className={classes.connected}>
-            <div>
-              <Typography variant="body1">Home network</Typography>
-            </div>
-            <Typography
-              component="h2"
-              variant="h2"
-              className={classes.networkName}
-            >
-              {homeChain?.name}
-            </Typography>
-            <Typography>{tokens ? tokens.length : "buffering"}</Typography>
-            {address && homeChain && tokens && (
-              <Button
-                onClick={() =>
-                  deposit(
-                    address,
-                    homeChain?.tokens[0].address,
-                    undefined,
-                    tokens[0].id
-                  )
-                }
-                type="button"
-                variant="primary"
-              >
-                Transfer
-              </Button>
-            )}
-          </section>
-        )}
-      </div>
     </article>
   );
 };
